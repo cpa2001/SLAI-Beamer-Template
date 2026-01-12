@@ -1,0 +1,296 @@
+% !TEX program = xelatex
+\documentclass{beamer}
+\usepackage{amsfonts,amsmath,oldgerm,mathrsfs,booktabs}
+\usetheme{cuhkslai}
+
+\newcommand{\testcolor}[1]{\colorbox{#1}{\textcolor{#1}{test}}~\texttt{#1}}
+\newcommand{\hrefcol}[2]{\textcolor{cyan}{\href{#1}{#2}}}
+
+\usefonttheme[onlymath]{serif}
+
+\title{Title}
+\subtitle{Subtitle}
+\author{Author Name}
+\affiliation{Affiliation}
+\date{\today}
+
+\begin{document}
+\maketitle
+\resetpagenumber
+
+\section{Introduction}
+
+\begin{frame}{Beamer for SINTEF slides}
+\begin{itemize}
+\item We assume you can use \LaTeX; if you cannot,
+\hrefcol{http://en.wikibooks.org/wiki/LaTeX/}{you can learn it here}
+\item Beamer is one of the most popular and powerful document
+classes for presentations in \LaTeX
+\item Beamer has also a detailed
+\hrefcol{http://www.ctan.org/tex-archive/macros/latex/contrib/beamer/doc/beameruserguide.pdf}{user
+ manual}
+\item Here we will present only the most basic features to get you up to speed
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Beamer vs. PowerPoint}
+Compared to PowerPoint, using \LaTeX\ is better because:
+\begin{itemize}
+\item It is not What-You-See-Is-What-You-Get, but
+What-You-\emph{Mean}-Is-What-You-Get:\\
+you write the content, the computer does the typesetting
+\item Produces a \texttt{pdf}: no problems with fonts, formulas,
+      program versions
+\item Easier to keep consistent style, fonts, highlighting, etc.
+\item Math typesetting in \TeX\ is the best:
+\begin{equation*}
+\mathrm{i}\,\hslash\frac{\partial}{\partial t} \Psi(\mathbf{r},t) =
+-\frac{\hslash^2}{2\,m}\nabla^2\Psi(\mathbf{r},t)
++ V(\mathbf{r})\Psi(\mathbf{r},t)
+\end{equation*}
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Getting Started}
+\framesubtitle{Selecting the SINTEF Theme}
+To start working with \texttt{sintefbeamer}, start a \LaTeX\ document with the
+preamble:
+\begin{block}{Minimum SINTEF Beamer Document}
+\verb|\documentclass{beamer}|\\
+\verb|\usetheme{sintef}|\\
+\verb|\begin{document}|\\
+\verb|\begin{frame}{Hello, world!}|\\
+\verb|\end{frame}|\\
+\verb|\end{document}|\\
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Title page}
+To set a typical title page, you call some commands in the preamble:
+\begin{block}{The Commands for the Title Page}
+\begin{verbatim}
+\title{Sample Title}
+\subtitle{Sample subtitle}
+\author{First Author, Second Author}
+\date{\today} % Can also be (ab)used for conference name &c.
+\end{verbatim}
+\end{block}
+You can then write out the title page with \verb|\maketitle|.
+
+To set a \textbf{background image} use the \verb|\titlebackground| command 
+before \verb|\maketitle|; its only argument is the name (or path) of a graphic 
+file.
+
+If you use the \textbf{starred version} \verb|\titlebackground*|, the image 
+will be clipped to a split view on the right side of the title slide.
+
+\end{frame}
+
+\begin{frame}[fragile]{Writing a Simple Slide}
+\framesubtitle{It's really easy!}
+\begin{itemize}[<+->]
+\item A typical slide has bulleted lists
+\item These can be uncovered in sequence
+\end{itemize}
+\begin{block}{Code for a Page with an Itemised List}<+->
+\begin{verbatim}
+\begin{frame}{Writing a Simple Slide}
+  \framesubtitle{It's really easy!}
+  \begin{itemize}[<+->]
+    \item A typical slide has bulleted lists
+    \item These can be uncovered in sequence
+  \end{itemize}\end{frame}
+\end{verbatim}
+\end{block}
+\end{frame}
+
+\section{Personalization}
+
+\begin{frame}[fragile]{Changing Slide Style}
+\begin{itemize}
+\item You can select the white or \textit{maincolor} \textbf{slide style} \emph{in the
+preamble} with \verb|\themecolor{white}| (default) or \verb|\themecolor{main}|
+      \begin{itemize}
+      \item You should \emph{not} change these within the document: Beamer does
+      not like it
+      \item If you \emph{really} must, you may have to add
+      \verb|\usebeamercolor[fg]{normal text}| in the slide
+      \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Blocks}
+\begin{columns}
+\begin{column}{0.3\textwidth}
+\begin{block}{Standard Blocks}
+These have a color coordinated with the footline (and grey in the blue theme)
+\begin{verbatim}
+\begin{block}{title}
+content...
+\end{block}
+\end{verbatim}
+\end{block}
+\end{column}
+\begin{column}{0.7\textwidth}
+\begin{colorblock}[white]{warmcolor4}{Colour Blocks}
+Similar to the ones on the left, but you pick the colour. Text will be white by
+default, but you may set it with an optional argument.
+\small
+\begin{verbatim}
+\begin{colorblock}[white]{warmcolor4}{title}
+content...
+\end{colorblock}
+\end{verbatim}
+\end{colorblock}
+Recommended colours: \testcolor{coolcolor1}, \testcolor{coolcolor2},
+\testcolor{coolcolor5}, \testcolor{warmcolor2}, \testcolor{warmcolor3}.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Using Colours}
+\begin{itemize}
+  \item You can use colours with the
+        \verb|\textcolor{<color name>}{text}| command
+  \item Available colours:
+  \begin{itemize}
+  \item Primary: \testcolor{maincolor}, \testcolor{sintefgrey}
+  \item Warm gradient: \testcolor{warmcolor1}, \testcolor{warmcolor2},
+        \testcolor{warmcolor3}, \testcolor{warmcolor4}, \testcolor{warmcolor5}
+  \item Cool gradient: \testcolor{coolcolor1}, \testcolor{coolcolor2},
+        \testcolor{coolcolor3}, \testcolor{coolcolor4}, \testcolor{coolcolor5}
+  \end{itemize}
+  \item Do \emph{not} abuse colours: \verb|\emph{}| is usually enough
+  \item Use \verb|\alert{}| to bring the \alert{focus} somewhere
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Adding images}
+\begin{columns}
+\begin{column}{0.7\textwidth}
+Adding images works like in normal \LaTeX:
+\begin{block}{Code for Adding Images}
+\begin{verbatim}
+\usepackage{graphicx}
+% ...
+\includegraphics[width=\textwidth]
+{assets/logo_CUHK}
+\end{verbatim}
+\end{block}
+\end{column}
+\begin{column}{0.3\textwidth}
+\includegraphics[width=\textwidth]
+{assets/logo_CUHK}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Splitting in Columns}
+Splitting the page is easy and common;
+typically, one side has a picture and the other text:
+\begin{columns}
+\begin{column}{0.6\textwidth}
+This is the first column
+\end{column}
+\begin{column}{0.3\textwidth}
+And this the second
+\end{column}
+\end{columns}
+\begin{block}{Column Code}
+\begin{verbatim}
+\begin{columns}
+    \begin{column}{0.6\textwidth}
+        This is the first column
+    \end{column}
+    \begin{column}{0.3\textwidth}
+        And this the second
+    \end{column}
+    % There could be more!
+\end{columns}
+\end{verbatim}
+\end{block}
+\end{frame}
+
+\chapterslide{Special Slides}{%
+\begin{itemize}
+\item Use \texttt{\textbackslash chapterslide\{title\}\{content\}} for chapter title pages
+\item Use \texttt{\textbackslash sidepicslide\{image\}\{title\}\{content\}} for side-picture slides
+\end{itemize}
+}
+
+\sidepicslide{assets/CUHK}{Side-Picture Slides}{%
+\begin{itemize}
+\item Image appears on the right side
+\item Content appears on the left side
+\item Great for visual emphasis
+\end{itemize}
+}
+
+\footlinecolor{}
+\begin{frame}
+\frametitle{Fonts}
+\begin{itemize}
+\item The paramount task of fonts is being readable
+\item There are good ones...
+  \begin{itemize}
+  \item {\textrm{Use serif fonts only with high-definition projectors}}
+  \item {\textsf{Use sans-serif fonts otherwise (or if you simply prefer 
+them)}}
+  \end{itemize}
+\item ... and not so good ones:
+  \begin{itemize}
+  \item {\texttt{Never use monospace for normal text}}
+  \item {\frakfamily Gothic, calligraphic or weird fonts: should always: be
+  avoided}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Look}
+\begin{itemize}
+\item To insert a final slide with the title and final thanks, use \verb|\backmatter|.
+      \begin{itemize}
+      \item The title also appears in footlines along with the author name, you can change this text with \verb|\footlinepayoff|
+      \item You can remove the title from the final slide with \verb|\backmatter[notitle]|
+      \end{itemize}
+\item The aspect ratio defaults to 16:9, and you should not change it to 4:3
+      for old projectors as it is inherently impossible to perfectly convert a 
+      16:9 presentation to 4:3 one; spacings \emph{will} break
+      \begin{itemize}
+      \item The \texttt{aspectratio} argument to the \texttt{beamer} class is
+            overridden by the SINTEF theme
+      \item If you \emph{really} know what you are doing, check the package
+            code and look for the \texttt{geometry} class.
+      \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Citation}
+\begin{itemize}
+\item You can cite references using \texttt{$\backslash$cite$\{\}$}, e.g. \cite{Chen2022RNAFoundation, Shen2024RNALM3D, wang2025treesynth}
+\item References will be shown on the last page
+\end{itemize}
+\end{frame}
+
+\section{Summary}
+
+\begin{frame}
+\frametitle{Good Luck!}
+\begin{itemize}
+\item Enough for an introduction! You should know enough by now
+\item If you have corrections or suggestions,
+\hrefcol{mailto:chenpengan@link.cuhk.edu.hk}{send them to me!}
+\end{itemize}
+\end{frame}
+
+\section{Reference}
+
+\begin{frame}[allowframebreaks]{References}
+\tiny
+\bibliographystyle{apalike}
+\bibliography{bibliography}
+\end{frame}
+
+\backmatter
+\end{document}

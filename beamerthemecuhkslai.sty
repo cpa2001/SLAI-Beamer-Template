@@ -1,0 +1,412 @@
+%% beamerthemecuhkslai.sty
+%% CUHK-SLAI Beamer Theme
+%%
+%% Copyright (c) 2025 CHEN Pengan
+%% The Chinese University of Hong Kong & Shenzhen Loop AI Institute
+%% Email: chenpengan@link.cuhk.edu.hk
+%%
+%% Based on: CUHK Beamer Template by Yiwen Bao (CUHK)
+%% Original: https://www.overleaf.com/latex/templates/xiang-gang-zhong-wen-da-xue-zhong-wen-mo-ban-cuhk-beamer-template/bpgghjpjkqxw
+%%
+%% This work is licensed under the GNU General Public License v3.0
+%%
+\ProvidesPackage{beamerthemecuhkslai}[2025/01/12]
+
+\RequirePackage{etoolbox}
+\RequirePackage{tikz}
+\RequirePackage{xcolor}
+\RequirePackage{geometry}
+\RequirePackage{graphicx}
+
+% 16:9 aspect ratio
+\geometry{paperwidth=20cm,paperheight=11cm}
+
+% Font: Helvetica (local) or TeX Gyre Heros (Overleaf)
+\RequirePackage{fontspec}
+\IfFontExistsTF{Helvetica}{%
+  \setsansfont{Helvetica}[
+    BoldFont={Helvetica Bold},
+    ItalicFont={Helvetica Oblique},
+    BoldItalicFont={Helvetica Bold Oblique}
+  ]
+}{\setsansfont{TeX Gyre Heros}}
+\renewcommand{\familydefault}{\sfdefault}
+
+% CJK Font
+\RequirePackage{xeCJK}
+\IfFontExistsTF{PingFang SC}{%
+  \setCJKmainfont{PingFang SC}
+  \setCJKsansfont{PingFang SC}
+  \setCJKmonofont{PingFang SC}
+}{%
+  \setCJKmainfont{FandolHei-Regular}
+  \setCJKsansfont{FandolHei-Regular}
+  \setCJKmonofont{FandolHei-Regular}
+}
+
+% Colors - Primary
+\definecolor{maincolor}{HTML}{881E55}
+\definecolor{sintefgrey}{RGB}{235,235,230}
+\colorlet{sintefgray}{sintefgrey}
+\definecolor{darkgrey}{HTML}{595959}
+\colorlet{darkgray}{darkgrey}
+
+\definecolor{warmcolor1}{HTML}{B63D55}
+\definecolor{warmcolor2}{HTML}{DA6550}
+\definecolor{warmcolor3}{HTML}{F2944D}
+\definecolor{warmcolor4}{HTML}{FCC555}
+\definecolor{warmcolor5}{HTML}{F9F871}
+
+\definecolor{coolcolor1}{HTML}{7F4392}
+\definecolor{coolcolor2}{HTML}{406AC6}
+\definecolor{coolcolor3}{HTML}{008DE0}
+\definecolor{coolcolor4}{HTML}{00ABD9}
+\definecolor{coolcolor5}{HTML}{00C3B6}
+
+\definecolor{sintefred}{RGB}{190,60,55}
+
+\setbeamertemplate{navigation symbols}{}
+
+% Logos
+\pgfdeclareimage[height=1.3cm]{titlelogoright}{assets/CUHK}
+\pgfdeclareimage[height=1.05cm]{titlelogoleft}{assets/SLAI}
+\pgfdeclareimage[height=1.25cm]{logoright}{assets/logo_CUHK}
+\pgfdeclareimage[height=1.05cm]{logoleft}{assets/logo_SLAI}
+\pgfdeclareimage[height=1.25cm]{whitelogoright}{assets/logo_CUHK_white}
+\pgfdeclareimage[height=1.05cm]{whitelogoleft}{assets/logo_SLAI_white}
+
+\newcommand{\@logoright}{logoright}
+\newcommand{\@logoleft}{logoleft}
+\newcommand{\@titlelogoright}{titlelogoright}
+\newcommand{\@titlelogoleft}{titlelogoleft}
+
+% Footline
+\setbeamertemplate{footline}{%
+  \leavevmode%
+  \vspace*{0pt}%
+  \hbox to \paperwidth{%
+    % Left: Author name
+    \begin{beamercolorbox}[wd=0.25\paperwidth,ht=6mm,dp=0pt,center]{author in head/foot}%
+      \tikz[baseline=-0.5ex]{\fill[maincolor] (0,0) rectangle (0.25\paperwidth,6mm);
+        \node[anchor=center,text=white] at (0.125\paperwidth,3mm) {\usebeamerfont{footline}\insertshortauthor};}%
+    \end{beamercolorbox}%
+    % Center: Progress bar
+    \begin{beamercolorbox}[wd=0.5\paperwidth,ht=6mm,dp=0pt]{progress bar}%
+      \tikz[baseline=-0.5ex]{%
+        % Calculate progress ratio
+        \pgfmathtruncatemacro{\totalframes}{\inserttotalframenumber}%
+        \pgfmathtruncatemacro{\currentframe}{\insertframenumber}%
+        \ifnum\totalframes>0\relax
+          \pgfmathsetmacro{\ratio}{\currentframe/\totalframes}%
+        \else
+          \pgfmathsetmacro{\ratio}{0}%
+        \fi
+        % Draw progress bar: completed part (dark grey) + remaining part (light grey)
+        \fill[darkgrey] (0,0) rectangle ({\ratio*0.5*\paperwidth},6mm);
+        \fill[sintefgrey] ({\ratio*0.5*\paperwidth},0) rectangle (0.5\paperwidth,6mm);
+        % Section name: white text on dark grey (clipped to dark area)
+        \begin{scope}
+          \clip (0,0) rectangle ({\ratio*0.5*\paperwidth},6mm);
+          \node[anchor=center,text=white] at (0.25\paperwidth,3mm) {\usebeamerfont{footline}\insertsectionhead};
+        \end{scope}
+        % Section name: black text on light grey (clipped to light area)
+        \begin{scope}
+          \clip ({\ratio*0.5*\paperwidth},0) rectangle (0.5\paperwidth,6mm);
+          \node[anchor=center,text=black] at (0.25\paperwidth,3mm) {\usebeamerfont{footline}\insertsectionhead};
+        \end{scope}
+      }%
+    \end{beamercolorbox}%
+    % Right: Page number
+    \begin{beamercolorbox}[wd=0.25\paperwidth,ht=6mm,dp=0pt,center]{page number}%
+      \tikz[baseline=-0.5ex]{\fill[white] (0,0) rectangle (0.25\paperwidth,6mm);
+        \node[anchor=center,text=maincolor] at (0.125\paperwidth,3mm) {\usebeamerfont{footline}\insertframenumber\,/\,\inserttotalframenumber};}%
+    \end{beamercolorbox}%
+  }%
+  \vspace*{0pt}%
+}
+
+\newcommand{\nofootline}{\setbeamertemplate{footline}{}}
+\newcommand{\footlinecolor}[1]{}
+\newcommand{\resetpagenumber}{\setcounter{framenumber}{0}}
+
+% Theme color (call in preamble only)
+\newcommand{\themecolor}[1]{
+	\ifstrequal{#1}{main}{%
+        \setbeamercolor{footline}{fg=white}
+		\setbeamercolor{normal text}{fg=white,bg=maincolor}
+		\setbeamercolor{structure}{fg=white}
+		\setbeamercolor{block title}{fg=maincolor,bg=sintefgrey}
+		\setbeamercolor{block body}{fg=darkgray,bg=sintefgrey}
+	}{%
+        \setbeamercolor{footline}{fg=darkgray}
+		\setbeamercolor{normal text}{fg=darkgray,bg=white}
+		\setbeamercolor{structure}{fg=maincolor}
+		\setbeamercolor{block title}{fg=white,bg=maincolor}
+		\setbeamercolor{block body}{fg=darkgray,bg=sintefgrey}
+	}
+}
+\themecolor{white}
+
+\setbeamercolor{title}{fg=maincolor,bg=white}
+\setbeamercolor{alerted text}{fg=sintefred}
+\setbeamercolor{author}{fg=black}
+\setbeamercolor{date}{fg=black}
+
+% Typography
+\setbeamerfont{author}{size=\large}
+\setbeamerfont{institute}{size=\normalsize}
+\setbeamerfont{affiliation}{size=\normalsize}
+\setbeamerfont{date}{size=\normalsize}
+\setbeamerfont{title}{series=\bfseries,size=\Huge}
+\setbeamerfont{subtitle}{series=\mdseries,size=\Large}
+\setbeamerfont{frametitle}{series=\bfseries,size=\Large}
+\setbeamerfont{framesubtitle}{series=\mdseries,size=\normalsize}
+\setbeamerfont{footline}{size=\footnotesize}
+\setbeamerfont{block title}{series=\centering\bfseries,size=\normalsize}
+
+\setbeamertemplate{blocks}[rounded]
+
+\setbeamertemplate{itemize item}{\textbullet}
+\setbeamertemplate{itemize subitem}{\textemdash}
+\setbeamertemplate{itemize subsubitem}{\ensuremath{\circ}}
+
+\newlength{\sintefLogoLeftVShift}
+\newlength{\sintefLogoRightVShift}
+\setlength{\sintefLogoLeftVShift}{0pt}
+\setlength{\sintefLogoRightVShift}{0pt}
+\newcommand{\logoleftvshift}[1]{\setlength{\sintefLogoLeftVShift}{#1}}
+\newcommand{\logorightvshift}[1]{\setlength{\sintefLogoRightVShift}{#1}}
+
+\newenvironment{colorblock}[3][white]{%
+  \begingroup
+  \setbeamercolor{block title}{fg=#1,bg=#2}
+  \setbeamercolor{block body}{fg=#1,bg=#2}
+  \begin{block}{#3}
+}{%
+  \end{block}
+  \endgroup
+}
+
+% Headline
+\setbeamertemplate{headline}{%
+  \vspace{3mm}%
+  \hspace{0.04\paperwidth}%
+  \raisebox{\sintefLogoLeftVShift}{\pgfuseimage{\@logoleft}}%
+  \hfill%
+  \raisebox{\sintefLogoRightVShift}{\pgfuseimage{\@logoright}}%
+  \hspace{0.04\paperwidth}%
+  \vspace{2mm}%
+}
+
+% Frame title
+\setbeamertemplate{frametitle}{%
+  \vspace*{-4.3ex}
+  \begin{beamercolorbox}[leftskip=1.7cm]{frametitle}%
+    \usebeamerfont{frametitle}\insertframetitle\\
+    \usebeamerfont{framesubtitle}\insertframesubtitle
+  \end{beamercolorbox}
+}
+
+\def\@courseLabel{}
+\def\@IDnumber{}
+\def\@supervisor{}
+\def\@affiliation{}
+
+\newcommand{\course}[1]{\def\@courseLabel{#1}}
+\newcommand{\IDnumber}[1]{\def\@IDnumber{#1}}
+\newcommand{\supervisor}[1]{\def\@supervisor{#1}}
+\newcommand{\affiliation}[1]{\def\@affiliation{#1}}
+
+% Title page
+\setbeamertemplate{title page}{%
+  \vspace{10mm}
+  \vfill
+  \begin{center}
+    \begin{beamercolorbox}[sep=8pt,center]{title}%
+      \vspace{4mm}
+      {\usebeamerfont{title}\inserttitle}
+
+      \vspace{2mm}
+      {\usebeamerfont{subtitle}\insertsubtitle}
+
+      \ifdefempty{\@courseLabel}{}{\vspace{2mm}{\usebeamerfont{subtitle}\@courseLabel}}
+
+      \vspace{4mm}
+      {\usebeamerfont{author}\usebeamercolor[fg]{author}\textbf{\insertauthor} \ifdefempty{\@IDnumber}{}{(\@IDnumber)}}
+
+      \ifdefempty{\@affiliation}{}{\vspace{1.5mm}{\usebeamerfont{affiliation}\usebeamercolor[fg]{author}\@affiliation}}
+      \ifdefempty{\@supervisor}{}{\vspace{2mm}Supervisor: \usebeamerfont{author}\usebeamercolor[fg]{author}\textbf{\@supervisor}}
+    \end{beamercolorbox}
+  \end{center}
+  \vfill
+  \begin{center}
+    \vspace{4mm}
+    {\usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate}
+  \end{center}
+  \vspace{6mm}
+}
+
+\newcommand{\TikzSplitSlide}[1]{%
+  \rule{0.56\paperwidth}{0pt}%
+  \begin{tikzpicture}
+    \clip (-0.1\paperwidth,-0.5\paperheight) --
+          ( 0.5\paperwidth,-0.5\paperheight) --
+          ( 0.5\paperwidth, 0.5\paperheight) --
+          ( 0.1\paperwidth, 0.5\paperheight) -- cycle;
+    \node at (0.2\paperwidth,0) {\includegraphics[height=\paperheight]{#1}};
+  \end{tikzpicture}
+}
+
+\newbool{splittitle}
+\newcommand{\@TitleBackground}{}
+\newcommand{\titlebackground}{\@ifstar{\SplitBackground}{\FullBackground}}
+\newcommand{\FullBackground}[1]{\renewcommand{\@TitleBackground}{#1}}
+\newcommand{\SplitBackground}[1]{\boolfalse{splittitle}\renewcommand{\@TitleBackground}{#1}}
+
+\renewcommand{\maketitle}{
+  \begingroup
+  \setbeamertemplate{headline}{%
+    \vspace{3mm}%
+    \hspace{0.04\paperwidth}%
+    \raisebox{\sintefLogoLeftVShift}{\pgfuseimage{\@titlelogoleft}}%
+    \hfill%
+    \raisebox{\sintefLogoRightVShift}{\pgfuseimage{\@titlelogoright}}%
+    \hspace{0.04\paperwidth}%
+    \vspace{2mm}%
+  }
+  \setbeamertemplate{footline}{}
+  \ifdefempty{\@TitleBackground}{}{%
+    \setbeamertemplate{background}{%
+      \ifbool{splittitle}{\TikzSplitSlide{\@TitleBackground}}{\includegraphics[height=\paperheight]{\@TitleBackground}}
+    }
+  }
+  \begin{frame}%
+  \titlepage%
+  \end{frame}%
+  \endgroup
+}
+
+\makeatletter
+\newenvironment{withoutheadline}{
+  \setbeamertemplate{headline}[default]
+  \def\beamer@entrycode{\vspace*{-\headheight}}
+}{}
+\makeatother
+
+% Chapter slide: \chapterslide{Title}{Content}
+\newcommand{\chapterslide}[2]{%
+  \begingroup
+  \themecolor{main}%
+  \setbeamertemplate{headline}{%
+    \vspace{3mm}%
+    \hspace{0.04\paperwidth}%
+    \raisebox{\sintefLogoLeftVShift}{\pgfuseimage{whitelogoleft}}%
+    \hfill%
+    \raisebox{\sintefLogoRightVShift}{\pgfuseimage{whitelogoright}}%
+    \hspace{0.04\paperwidth}%
+    \vspace{2mm}%
+  }%
+  \setbeamertemplate{footline}{}%
+  \setbeamercolor{frametitle}{fg=white}%
+  \setbeamercolor{normal text}{fg=white,bg=maincolor}%
+  \setbeamertemplate{background}{\includegraphics[width=\paperwidth,height=\paperheight]{assets/background}}%
+  \setbeamertemplate{frametitle}{%
+    \vspace*{-4.3ex}%
+    \begin{beamercolorbox}[leftskip=1.7cm]{frametitle}%
+      \usebeamerfont{frametitle}\insertframetitle\\%
+      \usebeamerfont{framesubtitle}\insertframesubtitle%
+    \end{beamercolorbox}%
+  }%
+  \begin{frame}[c]{#1}%
+    \usebeamercolor[fg]{normal text}%
+    #2%
+  \end{frame}%
+  \endgroup
+}
+
+% Side picture slide: \sidepicslide{Image}{Title}{Content}
+\newcommand{\sidepicslide}[3]{%
+  \begingroup
+  \setbeamertemplate{background}{\hspace*{0.6\paperwidth}\includegraphics[height=\paperheight]{#1}}%
+  \setbeamertemplate{frametitle}{%
+    \vspace*{-3.8ex}%
+    \begin{beamercolorbox}[leftskip=2cm,rightskip=0.4\textwidth]{frametitle}%
+      \usebeamerfont{frametitle}\insertframetitle\\%
+      \usebeamerfont{framesubtitle}\insertframesubtitle%
+    \end{beamercolorbox}%
+  }%
+  \begin{frame}{#2}%
+    \minipage{0.6\textwidth}#3\endminipage%
+  \end{frame}%
+  \endgroup
+}
+
+% Backmatter: \backmatter or \backmatter[notitle]
+\newif\ifsintefbackmatternotitle
+\newcommand{\backmatter}[1][]{%
+  \sintefbackmatternotitlefalse
+  \ifstrequal{#1}{notitle}{\sintefbackmatternotitletrue}{}%
+  \begingroup
+  \themecolor{main}%
+  \setbeamertemplate{headline}{%
+    \vspace{3mm}%
+    \hspace{0.04\paperwidth}%
+    \raisebox{\sintefLogoLeftVShift}{\pgfuseimage{whitelogoleft}}%
+    \hfill%
+    \raisebox{\sintefLogoRightVShift}{\pgfuseimage{whitelogoright}}%
+    \hspace{0.04\paperwidth}%
+    \vspace{2mm}%
+  }%
+  \setbeamertemplate{footline}{}%
+  \setbeamertemplate{background}{\includegraphics[width=\paperwidth,height=\paperheight]{assets/background}}%
+  \begin{frame}[c,noframenumbering]
+    \centering
+    \begin{minipage}{\textwidth}%
+      \usebeamercolor[fg]{normal text}%
+      \centering
+      \ifsintefbackmatternotitle\else\Huge\inserttitle\vspace{5mm}\par\fi
+      \Large\textsl{Thank you for listening!}\\[2mm]%
+      \Large\textsl{Any questions?}%
+    \end{minipage}%
+  \end{frame}
+  \endgroup
+}
+
+% Table of contents at section start
+\AtBeginSection[]{
+  \begingroup
+  \setbeamertemplate{headline}{%
+    \vspace{3mm}%
+    \hspace{0.04\paperwidth}%
+    \raisebox{\sintefLogoLeftVShift}{\pgfuseimage{whitelogoleft}}%
+    \hfill%
+    \raisebox{\sintefLogoRightVShift}{\pgfuseimage{whitelogoright}}%
+    \hspace{0.04\paperwidth}%
+    \vspace{2mm}%
+  }
+  \setbeamertemplate{footline}{}
+  \setbeamertemplate{background}{\includegraphics[width=\paperwidth,height=\paperheight]{assets/background}}
+  \setbeamercolor{frametitle}{fg=white}
+  \setbeamertemplate{frametitle}{%
+    \vspace*{-4.3ex}%
+    \begin{beamercolorbox}[leftskip=1.7cm]{frametitle}%
+      \usebeamerfont{frametitle}\insertframetitle\\
+      \usebeamerfont{framesubtitle}\textcolor{white!80}{\insertframesubtitle}
+    \end{beamercolorbox}
+  }
+  \setbeamercolor{section in toc}{fg=white}
+  \setbeamercolor{section in toc shaded}{fg=white}
+  \setbeamertemplate{section in toc}{\hspace*{1.7cm}\usebeamercolor[fg]{section in toc}$\blacktriangleright$~\inserttocsection}
+  \setbeamertemplate{section in toc shaded}{\hspace*{1.7cm}\tikz[baseline=(tocshade.base)]\node[inner sep=0pt,outer sep=0pt,text=white,text opacity=0.4](tocshade){$\blacktriangleright$~\inserttocsection};}
+  \begin{frame}[noframenumbering]{Table of Contents}{\thesection~\insertsectionhead}
+    \tableofcontents[currentsection]
+  \end{frame}
+  \endgroup
+}
+
+% Auto subtitle with section info
+\makeatletter
+\pretocmd\beamer@checkframetitle{\framesubtitle{\thesection\,\secname}}{}{}
+\makeatother
+
+\setbeamertemplate{frametitle continuation}{}
